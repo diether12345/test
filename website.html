@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Furniture Store</title>
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="modal">
+    <div class="modal-box">
+
+        <h2>Login</h2>
+
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <button onclick="closeLogin()" style="margin-top:8px;background:#999;">
+            Back
+        </button>
+
+        <p id="error"></p>
+
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="logo">
+        <img src="logo.png">
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="account">
+        <span id="userDisplay" onclick="handleAccount()">Login</span>
+        <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+    </div>
+
+</div>
+
+<!-- HOME -->
+<section id="home" class="hero">
+
+    <div class="hero-text">
+        <h1>Modern Furniture Store</h1>
+        <p>Stylish, affordable and comfortable furniture for your home.</p>
+    </div>
+
+    <div class="hero-img">
+        <img src="frontb.png">
+    </div>
+
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="section">
+
+<h2>Featured Products</h2>
+
+<div class="grid">
+
+    <div class="card">
+        <img src="sofa1.webp">
+        <p>Modern Sofa Set - ₱1,999</p>
+    </div>
+
+    <div class="card">
+        <img src="sofa2.webp">
+        <p>Designer Couch - ₱2,398</p>
+    </div>
+
+    <div class="card">
+        <img src="sofa3.webp">
+        <p>Fabric Sofa - ₱2,298</p>
+    </div>
+
+    <div class="card">
+        <img src="sofa4.webp">
+        <p>Velvet Sofa - ₱2,998</p>
+    </div>
+
+</div>
+
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+
+<h2>About Us</h2>
+
+<div class="about-box">
+
+<p><b>Welcome to Furniture Store</b></p>
+
+<p>
+We are a modern and customer-focused furniture shop dedicated to providing high-quality,
+stylish, and affordable home furniture. Our goal is to help you build a comfortable and
+beautiful living space.
+</p>
+
+<p>
+We carefully select every product to ensure durability, comfort, and modern design.
+From sofas to home essentials, we make sure everything fits your lifestyle.
+</p>
+
+<p>
+Our team believes that a home should not only look good but also feel good. That’s why
+we continuously improve our designs and customer service experience.
+</p>
+
+<p>
+<b>Why choose us?</b><br>
+✔ Affordable Prices<br>
+✔ High Quality Materials<br>
+✔ Modern Designs<br>
+✔ Trusted Customer Support
+</p>
+
+</div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+
+<h2>Contact Us</h2>
+
+<div class="contact-box">
+
+<p><b>Customer Support</b></p>
+
+<p>Email: support@furniturestore.com</p>
+<p>Phone: +63 900 000 0000</p>
+<p>Location: Philippines</p>
+
+<hr style="margin:15px 0;">
+
+<p><b>Business Hours</b></p>
+<p>Monday - Saturday: 9:00 AM - 7:00 PM</p>
+<p>Sunday: Closed</p>
+
+<hr style="margin:15px 0;">
+
+<p><b>Follow Us</b></p>
+<p>Facebook: Furniture Store PH</p>
+<p>Instagram: @furniturestoreph</p>
+<p>TikTok: @furniturestore</p>
+
+<hr style="margin:15px 0;">
+
+<div class="socials">
+We respond within 24 hours 💬
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<p>© 2026 Furniture Store</p>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+function openLogin(){
+    document.getElementById("loginModal").style.display = "flex";
+}
+
+function closeLogin(){
+    document.getElementById("loginModal").style.display = "none";
+}
+
+function login(){
+    let u = document.getElementById("username").value.trim();
+    let p = document.getElementById("password").value.trim();
+
+    if(u === "" || p === ""){
+        document.getElementById("error").innerText = "Fill all fields";
+        return;
+    }
+
+    localStorage.setItem("loggedIn","true");
+    localStorage.setItem("username",u);
+
+    document.getElementById("userDisplay").innerText = u;
+    document.getElementById("logoutBtn").style.display = "inline-block";
+
+    closeLogin();
+}
+
+function logout(){
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("username");
+
+    document.getElementById("userDisplay").innerText = "Login";
+    document.getElementById("logoutBtn").style.display = "none";
+}
+
+function handleAccount(){
+    if(localStorage.getItem("loggedIn") === "true"){
+        logout();
+    } else {
+        openLogin();
+    }
+}
+
+/* RESTORE LOGIN */
+window.onload = function(){
+    if(localStorage.getItem("loggedIn") === "true"){
+        document.getElementById("userDisplay").innerText =
+        localStorage.getItem("username");
+
+        document.getElementById("logoutBtn").style.display = "inline-block";
+    }
+};
+
+/* ACTIVE NAV SCROLL */
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll("nav ul li a");
+
+window.addEventListener("scroll", () => {
+    let current = "";
+
+    sections.forEach(section => {
+        const top = section.offsetTop - 120;
+        const height = section.offsetHeight;
+
+        if(pageYOffset >= top && pageYOffset < top + height){
+            current = section.getAttribute("id");
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+
+        if(link.getAttribute("href") === "#" + current){
+            link.classList.add("active");
+        }
+    });
+});
+</script>
+
+</body>
+</html>
